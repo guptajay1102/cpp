@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 
 class CoffeeShop {
 public:
@@ -9,38 +8,42 @@ public:
 
 class CustomerOrder : public CoffeeShop {
 private:
-    float coffeePrice;
-    int coffeeQuantity;
-    float teaPrice;
-    int teaQuantity;
-    float pastryPrice;
-    int pastryQuantity;
+    float coffeePrice, teaPrice, pastryPrice;
+    int coffeeQuantity, teaQuantity, pastryQuantity;
 
 public:
     CustomerOrder(float cPrice, int cQuantity, float tPrice, int tQuantity, float pPrice, int pQuantity)
-        : coffeePrice(cPrice), coffeeQuantity(cQuantity), teaPrice(tPrice), teaQuantity(tQuantity), pastryPrice(pPrice), pastryQuantity(pQuantity) {}
+        : coffeePrice(cPrice), teaPrice(tPrice), pastryPrice(pPrice), coffeeQuantity(cQuantity), teaQuantity(tQuantity), pastryQuantity(pQuantity) {}
 
     float calculateTotal() const override {
-        return coffeePrice * coffeeQuantity + teaPrice * teaQuantity + pastryPrice * pastryQuantity;
+        float coffeeCost = coffeePrice * coffeeQuantity;
+        float teaCost = teaPrice * teaQuantity;
+        float pastryCost = pastryPrice * pastryQuantity;
+
+        return coffeeCost + teaCost + pastryCost;
     }
 };
 
 int main() {
-    float cPrice, tPrice, pPrice;
-    int cQuantity, tQuantity, pQuantity;
+    float coffeePrice, teaPrice, pastryPrice;
+    int coffeeQuantity, teaQuantity, pastryQuantity;
 
-    // Input
-    std::cin >> cPrice >> cQuantity;
-    std::cin >> tPrice >> tQuantity;
-    std::cin >> pPrice >> pQuantity;
+    // Input for coffee
+    std::cin >> coffeePrice >> coffeeQuantity;
+
+    // Input for tea
+    std::cin >> teaPrice >> teaQuantity;
+
+    // Input for pastry
+    std::cin >> pastryPrice >> pastryQuantity;
 
     // Create CustomerOrder object
-    CoffeeShop* order = new CustomerOrder(cPrice, cQuantity, tPrice, tQuantity, pPrice, pQuantity);
+    CoffeeShop* order = new CustomerOrder(coffeePrice, coffeeQuantity, teaPrice, teaQuantity, pastryPrice, pastryQuantity);
 
-    // Output
-    std::cout << "Total cost of the order is $" << std::fixed << std::setprecision(2) << order->calculateTotal() << std::endl;
+    // Calculate and display total cost
+    std::cout << "Total cost of the order is $" << order->calculateTotal() << std::endl;
 
-    // Memory management
+    // Clean up dynamically allocated memory
     delete order;
 
     return 0;
