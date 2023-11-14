@@ -1,0 +1,54 @@
+#include <iostream>
+
+// Base class
+class Color {
+public:
+    virtual void paint() const = 0;  // Pure virtual function
+};
+
+// Derived class for Red color
+class RedPaint : public Color {
+public:
+    void paint() const override {
+        std::cout << "I'm Painting with Red Color." << std::endl;
+    }
+};
+
+// Derived class for Blue color
+class BluePaint : public Color {
+public:
+    void paint() const override {
+        std::cout << "I'm Painting with Blue Color." << std::endl;
+    }
+};
+
+int main() {
+    char choice;
+ //   std::cout << "Enter the color choice (R/r for Red, B/b for Blue): ";
+    std::cin >> choice;
+
+    Color* paintObject = nullptr;
+
+    // Check user input and create the corresponding object
+    switch (choice) {
+        case 'R':
+        case 'r':
+            paintObject = new RedPaint();
+            break;
+        case 'B':
+        case 'b':
+            paintObject = new BluePaint();
+            break;
+        default:
+            std::cout << "Invalid choice!" << std::endl;
+            return 1;  // Terminate program
+    }
+
+    // Use runtime polymorphism to call the paint function
+    paintObject->paint();
+
+    // Cleanup
+    delete paintObject;
+
+    return 0;
+}
